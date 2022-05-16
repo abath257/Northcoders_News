@@ -8,8 +8,8 @@ If you are cloning this project locally, you will need to do the following tasks
 .env.development
 
 2. Ensure the files contain the follwing: 
-The .env.development file should contain the following script: PGDATABASE= <databse name here>
-The .env.test file should contain the following script: PGDATABSE= <test databse name here>
+The .env.development file should contain the following script: PGDATABASE=<databse name here>
+The .env.test file should contain the following script: PGDATABSE=<test databse name here>
 
 3. Install the dependency DOTENV by using the following command in your terminal: npm i DOTENV
 4. Run the db/setup.sql file which will then setup the databses for use. 
