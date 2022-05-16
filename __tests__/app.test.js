@@ -30,10 +30,38 @@ describe("GET /api/topics", () => {
   });
   test("status 404: Returns a route not found message when given a incorrect endpoint", () => {
     return request(app)
-    .get("/api/banana")
-    .expect(404)
-    .then(({ body }) => {
-      expect(body.msg).toBe("Not Found");
+      .get("/api/banana")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Not Found");
+      });
   });
-})
+});
+
+describe("/api/article/:article_id", () => {
+  test("Status 200 : Returns the article given in the endpoint, with the username as the author ", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then(({ body }) => {
+      
+         expect(body.article).toEqual({
+          article_id:1,
+          title: "Living in the shadow of a great man",
+          topic: "mitch",
+          author: "butter_bridge",
+          body: "I find this existence challenging",
+          created_at:"2020-07-09T20:11:00.000Z",
+          votes: 100,
+        });
+      });
+  });
+  test('status 400: Returns a bad request message when given a endpoint of wrong type', () => {
+    return request(app)
+    .get("/api/articles/banana")
+    .expect(400)
+    .then(({ body }) => {
+    expect(body.msg).toBe("Bad Request");
+    });
+  });
 });

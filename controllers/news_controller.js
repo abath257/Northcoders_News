@@ -1,4 +1,5 @@
-const { fetchTopics } = require("../models/news_model.js");
+const { fetchTopics,fetchArticles } = require("../models/news_model.js");
+
 
 exports.getTopics = (req, res) => {
   fetchTopics()
@@ -9,3 +10,14 @@ exports.getTopics = (req, res) => {
       next(err);
     });
 };
+
+exports.getArticles = (req,res,next)=>{
+ const {article_id} = req.params
+fetchArticles(article_id)
+.then((article)=>{
+res.status(200).send({article})
+})
+.catch((err) => {
+  next(err)
+  })
+}
