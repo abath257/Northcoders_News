@@ -31,8 +31,8 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "node": "^17.7.2",
-    "pg": "^8.7.3",
-    "postgres": "^3.2.2"
+    "pg": "^8.7.3"
+    
   },
   "jest": {
     "setupFilesAfterEnv": [
