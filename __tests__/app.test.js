@@ -151,20 +151,20 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
+
+
+
 describe("GET /api/users", () => {
-  test("status 200: Should return an array containing all of the usernames ", () => {
+  test.only("status 200: Should return an array containing all of the usernames", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
       .then(({ body }) => {
-        expect(body.users).toEqual(
-          expect.arrayContaning([
-            { username: "butter_bridge" },
-            { username: "icellusedkars" },
-            { username: "rogersop" },
-            { username: "lurker" },
-          ])
-        );
-      });
-  });
-});
+        const {users} = body
+          expect(users).toBeInstanceOf(Array);
+          expect(users).toHaveLength(3);
+          topics.forEach((user) => {
+            expect(user).toEqual(
+              expect.objectContaining({
+                username: expect.any(String)
+                              }))})})})});
