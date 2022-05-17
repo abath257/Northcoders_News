@@ -44,24 +44,31 @@ describe("/api/article/:article_id", () => {
       .get("/api/articles/1")
       .expect(200)
       .then(({ body }) => {
-      
-         expect(body.article).toEqual({
-          article_id:1,
+        expect(body.article).toEqual({
+          article_id: 1,
           title: "Living in the shadow of a great man",
           topic: "mitch",
           author: "butter_bridge",
           body: "I find this existence challenging",
-          created_at:"2020-07-09T20:11:00.000Z",
+          created_at: "2020-07-09T20:11:00.000Z",
           votes: 100,
         });
       });
   });
-  test('status 400: Returns a bad request message when given a endpoint of wrong type', () => {
+  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
     return request(app)
-    .get("/api/articles/banana")
-    .expect(400)
-    .then(({ body }) => {
-    expect(body.msg).toBe("Bad Request");
-    });
+      .get("/api/articles/banana")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+  test("status 404: Returns a Route Not found message when given data of correct type but is otherwise invalid", () => {
+    return request(app)
+      .get("/api/articles/9999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route Not Found");
+      });
   });
 });
