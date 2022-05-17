@@ -22,9 +22,10 @@ exports.patchArticleById = (article_id, votes) => {
     )
     .then((data) => {
       let updatedArticle = data.rows[0];
-      console.log(updatedArticle);
+     
       if (!updatedArticle) {
         return Promise.reject({ status: 404, msg: "Route Not Found" });
       }
+      return updatedArticle
     });
 };

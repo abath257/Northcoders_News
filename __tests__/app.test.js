@@ -110,7 +110,7 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(body.msg).toBe("Bad Request");
       });
   });
-  test.only("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
+  test("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
     return request(app)
       .patch("/api/articles/9999")
       .send(voteUpdate)
