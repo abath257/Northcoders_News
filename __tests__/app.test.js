@@ -38,23 +38,12 @@ describe("GET /api/topics", () => {
   });
 });
 
-describe("/api/article/:article_id", () => {
+describe("GET /api/article/:article_id", () => {
   test("Status 200 : Returns the article given in the endpoint, with the username as the author ", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
-      .then(({ body }) => {
-<<<<<<< Updated upstream
-        expect(body.article).toEqual({
-          article_id: 1,
-          title: "Living in the shadow of a great man",
-          topic: "mitch",
-          author: "butter_bridge",
-          body: "I find this existence challenging",
-          created_at: "2020-07-09T20:11:00.000Z",
-          votes: 100,
-        });
-=======
+      .then(({ body }) =>
         expect(body.article).toEqual(
           expect.objectContaining({
             article_id: 1,
@@ -65,9 +54,8 @@ describe("/api/article/:article_id", () => {
             created_at: "2020-07-09T20:11:00.000Z",
             votes: 100,
           })
-        );
->>>>>>> Stashed changes
-      });
+        )
+      );
   });
   test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
     return request(app)
@@ -77,7 +65,7 @@ describe("/api/article/:article_id", () => {
         expect(body.msg).toBe("Bad Request");
       });
   });
-  test("status 404: Returns a Route Not found message when given data of correct type but is otherwise invalid", () => {
+  test("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
     return request(app)
       .get("/api/articles/9999")
       .expect(404)
@@ -86,8 +74,6 @@ describe("/api/article/:article_id", () => {
       });
   });
 });
-<<<<<<< Updated upstream
-=======
 
 const voteUpdate = {
   inc_votes: 500,
@@ -100,6 +86,13 @@ describe("PATCH /api/articles/:article_id", () => {
       .send(voteUpdate)
       .expect(200)
       .then(({ body }) => {
+        expect(body.article).toEqual(
+          expect.objectContaining({
+            article_id: 3,
+            votes: 500,
+          })
+        );
+
         expect(body.article).toEqual(
           expect.objectContaining({
             article_id: 3,
@@ -175,4 +168,3 @@ describe("GET /api/users", () => {
       });
   });
 });
->>>>>>> Stashed changes
