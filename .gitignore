@@ -1,3 +1,4 @@
 node_modules
 .env.*
-dooberry.md
+notes.md
+.gitignore

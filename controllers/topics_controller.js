@@ -1,4 +1,4 @@
-const { fetchTopics } = require("../models/news_model.js");
+const {fetchTopics} = require("../models/topics_model.js");
 
 exports.getTopics = (req, res) => {
   fetchTopics()
@@ -9,3 +9,4 @@ exports.getTopics = (req, res) => {
       next(err);
     });
 };
+
