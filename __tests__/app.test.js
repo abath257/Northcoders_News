@@ -73,11 +73,12 @@ describe("GET /api/article/:article_id", () => {
   });
 });
 
+const voteUpdate = {
+  inc_votes: 500,
+};
+
 describe("PATCH /api/articles/:article_id", () => {
   test("status 200: responds with the updated article", () => {
-    const voteUpdate = {
-      inc_votes: 500,
-    };
     return request(app)
       .patch("/api/articles/3")
       .send(voteUpdate)
@@ -88,6 +89,24 @@ describe("PATCH /api/articles/:article_id", () => {
           votes: 500,
           ...body.article,
         });
+      });
+  });
+  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
+    return request(app)
+      .patch("/api/articles/banana")
+      .send(voteUpdate)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+  test.only("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
+    return request(app)
+      .patch("/api/articles/9999")
+      .send(voteUpdate)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route Not Found");
       });
   });
   test("status 422: returns an incorrect input message when sent invalid data key", () => {
