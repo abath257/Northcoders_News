@@ -44,7 +44,7 @@ describe("GET /api/article/:article_id", () => {
       .get("/api/articles/1")
       .expect(200)
       .then(({ body }) => {
-        expect(body.article).toEqual({
+        expect(body.article).toEqual(expect.objectContaining({
           article_id: 1,
           title: "Living in the shadow of a great man",
           topic: "mitch",
@@ -52,7 +52,7 @@ describe("GET /api/article/:article_id", () => {
           body: "I find this existence challenging",
           created_at: "2020-07-09T20:11:00.000Z",
           votes: 100,
-        });
+        }));
       });
   });
   test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
@@ -84,11 +84,11 @@ describe("PATCH /api/articles/:article_id", () => {
       .send(voteUpdate)
       .expect(200)
       .then(({ body }) => {
-        expect(body.article).toEqual({
+        expect(body.article).toEqual(expect.objectContaining({
           article_id: 3,
-          votes: 500,
-          ...body.article,
-        });
+          votes: 500
+          
+        }));
       });
   });
   test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
