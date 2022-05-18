@@ -151,20 +151,26 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-
-
-
 describe("GET /api/users", () => {
-  test.only("status 200: Should return an array containing all of the usernames", () => {
+  test.only("status 200: returns an array of all the usernames property", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
       .then(({ body }) => {
-        const {users} = body
-          expect(users).toBeInstanceOf(Array);
-          expect(users).toHaveLength(3);
-          topics.forEach((user) => {
-            expect(user).toEqual(
-              expect.objectContaining({
-                username: expect.any(String)
-                              }))})})})});
+        const { users } = body;
+        expect(users).toEqual(
+          expect.arrayContaining([
+           {username:expect.any(String)}
+          ])
+        );
+      });
+  });
+  test.only("status 404: Returns a route not found message when given a incorrect endpoint", () => {
+    return request(app)
+      .get("/api/banana")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Not Found");
+      });
+  });
+});
