@@ -92,13 +92,6 @@ describe("PATCH /api/articles/:article_id", () => {
             votes: 500,
           })
         );
-
-        expect(body.article).toEqual(
-          expect.objectContaining({
-            article_id: 3,
-            votes: 500,
-          })
-        );
       });
   });
   test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
@@ -110,7 +103,7 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(body.msg).toBe("Bad Request");
       });
   });
-  test.only("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
+  test("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
     return request(app)
       .patch("/api/articles/9999")
       .send(voteUpdate)
@@ -152,19 +145,26 @@ describe("PATCH /api/articles/:article_id", () => {
 });
 
 describe("GET /api/users", () => {
-  test("status 200: Should return an array containing all of the usernames ", () => {
+  test("status 200: returns an array of all the usernames property", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
       .then(({ body }) => {
-        expect(body.users).toEqual(
-          expect.arrayContaning([
-            { username: "butter_bridge" },
-            { username: "icellusedkars" },
-            { username: "rogersop" },
-            { username: "lurker" },
+        const { users } = body;
+        expect(users).toHaveLength(4)
+        expect(users).toEqual(
+          expect.arrayContaining([
+           {username:expect.any(String)}
           ])
         );
+      });
+  });
+  test("status 404: Returns a route not found message when given a incorrect endpoint", () => {
+    return request(app)
+      .get("/api/banana")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Not Found");
       });
   });
 });

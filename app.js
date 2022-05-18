@@ -1,30 +1,17 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-const { getTopics } = require("./controllers/topics_controller.js");
-const { getArticles } = require("./controllers/articles_controller.js");
 
-app.get("/api/topics", getTopics);
-app.get("/api/articles/:article_id", getArticles);
-const {
-  getArticleById,
-  patchArticleById,
-} = require("./controllers/articles_controller.js");
+const { getTopics } = require("./controllers/topics_controller.js");
+const {getArticleById, patchArticleById} = require("./controllers/articles_controller.js");
 const {getAllUsers} = require("./controllers/users_controller.js")
+
+
 
 app.get("/api/topics", getTopics);
 app.get("/api/articles/:article_id", getArticleById);
 app.patch("/api/articles/:article_id", patchArticleById);
 app.get("/api/users",getAllUsers)
-
-const {
-  getArticleById,
-  patchArticleById,
-} = require("./controllers/articles_controller.js");
-
-app.get("/api/topics", getTopics);
-app.get("/api/articles/:article_id", getArticleById);
-app.patch("/api/articles/:article_id", patchArticleById);
 
 
 app.get("/api/*", (req, res) => {
