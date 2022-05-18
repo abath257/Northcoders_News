@@ -2,21 +2,8 @@ const db = require("../db/index.js");
 const { convertTimestampToDate } = require("../db/helpers/utils.js");
 
 exports.fetchArticleById = (article_id) => {
-  return db
-    .query("ALTER TABLE articles ADD comment_count INT")
-    .then(() => {
-      return db.query("SELECT article_id FROM comments");
-    })
-    .then((ids) => {
-      const commentCount = ids.rows.filter((id) => {
-        return id.article_id === Number(article_id);
-      }).length;
-      return db.query(
-        "UPDATE articles SET comment_count = $1 WHERE article_id = $2 RETURNING *",
-        [commentCount, article_id]
-      );
-    })
-    .then((data) => {
+
+return db.query('SELECT articles.*,CAST (COUNT(comments.article_id) AS INTEGER) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id=comments.article_id WHERE articles.article_id= $1 GROUP BY articles.article_id',[article_id]).then((data)=>{
       const article = data.rows[0];
       if (!article) {
         return Promise.reject({ status: 404, msg: "Route Not Found" });

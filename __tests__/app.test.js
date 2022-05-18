@@ -170,7 +170,7 @@ describe("GET /api/users", () => {
   });
 });
 
-describe('GET /api/article/:articleid, with added comment count ', () => {
+describe('GET /api/article/:article_id, with added comment count ', () => {
   test("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
     return request(app)
       .get("/api/articles/1")
@@ -190,24 +190,6 @@ describe('GET /api/article/:articleid, with added comment count ', () => {
         )
       );
   });
-  test("status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
-    return request(app)
-      .get("/api/articles/3")
-      .expect(200)
-      .then(({ body }) =>
-        expect(body.article).toEqual(
-          expect.objectContaining({
-            title: "Eight pug gifs that remind me of mitch",
-            topic: "mitch",
-            author: "icellusedkars",
-            body: "some gifs",
-            created_at:"2020-11-03T09:12:00.000Z",
-            votes: 0,
-            comment_count: 2
-          })
-        )
-      );
-  })
   test('status 200 : Returns the article\'s comment count as 0 when there are no comments', () => {
     return request(app)
       .get("/api/articles/4")
