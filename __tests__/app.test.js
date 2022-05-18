@@ -152,12 +152,13 @@ describe("PATCH /api/articles/:article_id", () => {
 });
 
 describe("GET /api/users", () => {
-  test.only("status 200: returns an array of all the usernames property", () => {
+  test("status 200: returns an array of all the usernames property", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
       .then(({ body }) => {
         const { users } = body;
+        expect(users).toHaveLength(4)
         expect(users).toEqual(
           expect.arrayContaining([
            {username:expect.any(String)}
@@ -165,7 +166,7 @@ describe("GET /api/users", () => {
         );
       });
   });
-  test.only("status 404: Returns a route not found message when given a incorrect endpoint", () => {
+  test("status 404: Returns a route not found message when given a incorrect endpoint", () => {
     return request(app)
       .get("/api/banana")
       .expect(404)
