@@ -28,6 +28,7 @@ describe("GET /api/topics", () => {
         });
       });
   });
+  
   test("status 404: Returns a route not found message when given a incorrect endpoint", () => {
     return request(app)
       .get("/api/banana")
@@ -166,5 +167,45 @@ describe("GET /api/users", () => {
       .then(({ body }) => {
         expect(body.msg).toBe("Not Found");
       });
+  });
+});
+
+describe('GET /api/article/:articleid, with added comment count ', () => {
+  test.only("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then(({ body }) =>
+        expect(body.article).toEqual(
+          expect.objectContaining({
+            article_id: 1,
+            title: "Living in the shadow of a great man",
+            topic: "mitch",
+            author: "butter_bridge",
+            body: "I find this existence challenging",
+            created_at: "2020-07-09T20:11:00.000Z",
+            votes: 100,
+            comment_count: 11
+          })
+        )
+      );
+  });
+  test.only("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
+    return request(app)
+      .get("/api/articles/3")
+      .expect(200)
+      .then(({ body }) =>
+        expect(body.article).toEqual(
+          expect.objectContaining({
+            title: "Eight pug gifs that remind me of mitch",
+            topic: "mitch",
+            author: "icellusedkars",
+            body: "some gifs",
+            created_at: 1604394720000,
+            votes: 0,
+            comment_count: 2
+          })
+        )
+      );
   });
 });
