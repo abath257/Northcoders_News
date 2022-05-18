@@ -92,13 +92,6 @@ describe("PATCH /api/articles/:article_id", () => {
             votes: 500,
           })
         );
-
-        expect(body.article).toEqual(
-          expect.objectContaining({
-            article_id: 3,
-            votes: 500,
-          })
-        );
       });
   });
   test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
