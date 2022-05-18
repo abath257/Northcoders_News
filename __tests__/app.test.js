@@ -171,7 +171,7 @@ describe("GET /api/users", () => {
 });
 
 describe('GET /api/article/:articleid, with added comment count ', () => {
-  test.only("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
+  test("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
@@ -190,7 +190,7 @@ describe('GET /api/article/:articleid, with added comment count ', () => {
         )
       );
   });
-  test.only("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
+  test("status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
     return request(app)
       .get("/api/articles/3")
       .expect(200)
@@ -201,11 +201,46 @@ describe('GET /api/article/:articleid, with added comment count ', () => {
             topic: "mitch",
             author: "icellusedkars",
             body: "some gifs",
-            created_at: 1604394720000,
+            created_at:"2020-11-03T09:12:00.000Z",
             votes: 0,
             comment_count: 2
           })
         )
       );
+  })
+  test('status 200 : Returns the article\'s comment count as 0 when there are no comments', () => {
+    return request(app)
+      .get("/api/articles/4")
+      .expect(200)
+      .then(({ body }) =>
+        expect(body.article).toEqual(
+          expect.objectContaining({
+            title: "Student SUES Mitch!",
+            topic: "mitch",
+            author: "rogersop",
+            body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
+            created_at: '2020-05-06T01:14:00.000Z',
+            votes: 0,
+            comment_count: 0
+          })
+        )
+      );
+  })
+  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
+    return request(app)
+      .get("/api/articles/banana")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
   });
-});
+  test("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
+    return request(app)
+      .get("/api/articles/9999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route Not Found");
+      });
+  });
+  });
+
