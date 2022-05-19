@@ -246,14 +246,14 @@ describe.only("GET/api/articles/:article_id/comments", () => {
         const { comments } = body;
         comments.forEach((comment) => {
           expect(comments).toBeInstanceOf(Array);
-          expect(comments).toHaveLength(3);
+          expect(comments).toHaveLength(2);
           expect(comment).toEqual(
-            expect.objectContaning({
+            expect.objectContaining({
               comment_id: expect.any(Number),
               body: expect.any(String),
               votes: expect.any(Number),
               author: expect.any(String),
-              created_at: expect.any(String),
+              created_at: expect.any(String)
             })
           );
         });
