@@ -1,7 +1,7 @@
 const {
   fetchArticleById,
   patchArticleById,
-} = require("../models/articles_model.js");
+} = require("../models/articles.model.js");
 
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
