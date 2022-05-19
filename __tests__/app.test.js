@@ -5,7 +5,6 @@ const seed = require("../db/seeds/seed");
 const request = require("supertest");
 const testData = require("../db/data/test-data");
 
-
 beforeEach(() => seed(testData));
 
 afterAll(() => db.end());
@@ -114,8 +113,7 @@ describe("GET /api/article/:article_id, with added comment count ", () => {
         )
       );
   });
-})
-
+});
 
 const voteUpdate = {
   inc_votes: 500,
@@ -199,11 +197,7 @@ describe("GET/api/users", () => {
         );
       });
   });
-})
-
-
-
-
+});
 
 describe("api/articles", () => {
   test("status 200: Returns an  array of article objects with added comment count ", () => {
@@ -243,24 +237,26 @@ describe("api/articles", () => {
   });
 });
 
-describe.only('GET/api/articles/:article_id/comments', () => {
-  test('Should return an array of all the comments on a given article_id', () => {
-  return request(app).get("/api/articles/3/comments").expect(200)
-  .then(({body})=>{
-    const {comments} = body
-    comments.forEach((comment) =>{
-      expect(comments).toBeInstanceOf(Array);
-      expect(comments).toHaveLength(3);
-expect(comment).toEqual(expect.objectContaning({
-comment_id: expect.any(Number),
-body: expect.any(String),
-votes: expect.any(Number),
-author: expect.any(String),
-created_at:expect.any(String),
-}))
-    })
-  })
-  })
-  
-})
-
+describe.only("GET/api/articles/:article_id/comments", () => {
+  test("Should return an array of all the comments on a given article_id", () => {
+    return request(app)
+      .get("/api/articles/3/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        comments.forEach((comment) => {
+          expect(comments).toBeInstanceOf(Array);
+          expect(comments).toHaveLength(3);
+          expect(comment).toEqual(
+            expect.objectContaning({
+              comment_id: expect.any(Number),
+              body: expect.any(String),
+              votes: expect.any(Number),
+              author: expect.any(String),
+              created_at: expect.any(String),
+            })
+          );
+        });
+      });
+  });
+});
