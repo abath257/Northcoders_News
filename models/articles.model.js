@@ -9,7 +9,6 @@ exports.fetchAllArticles = () => {
         if (!articles) {
           return Promise.reject({ status: 404, msg: "Route Not Found" });
         } 
-      let date = "2020-07-09T20:11:00.000Z"
      return articles
       });
   };

@@ -29,7 +29,6 @@ describe("GET /api/topics", () => {
         });
       });
   });
-
   test("status 404: Returns a route not found message when given a incorrect endpoint", () => {
     return request(app)
       .get("/api/banana")
@@ -40,7 +39,7 @@ describe("GET /api/topics", () => {
   });
 });
 
-describe("GET /api/article/:article_id", () => {
+describe("GET /api/articles/:article_id", () => {
   test("Status 200 : Returns the article given in the endpoint, with the username as the author ", () => {
     return request(app)
       .get("/api/articles/1")
@@ -146,7 +145,7 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
-describe("GET /api/users", () => {
+describe("GET/api/users", () => {
   test("status 200: returns an array of all the usernames property", () => {
     return request(app)
       .get("/api/users")
@@ -159,15 +158,8 @@ describe("GET /api/users", () => {
         );
       });
   });
-  test("status 404: Returns a route not found message when given a incorrect endpoint", () => {
-    return request(app)
-      .get("/api/banana")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Not Found");
-      });
-  });
-});
+})
+
 
 describe("GET /api/article/:article_id, with added comment count ", () => {
   test("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
@@ -207,23 +199,8 @@ describe("GET /api/article/:article_id, with added comment count ", () => {
         )
       );
   });
-  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
-    return request(app)
-      .get("/api/articles/banana")
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Bad Request");
-      });
-  });
-  test("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
-    return request(app)
-      .get("/api/articles/9999")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Route Not Found");
-      });
-  });
-});
+})
+
 
 describe("api/articles", () => {
   test("status 200: Returns an  array of article objects with added comment count ", () => {
@@ -259,14 +236,6 @@ describe("api/articles", () => {
           article.created_at = Date.parse(article.created_at);
         });
         expect(articles).toBeSortedBy("created_at", { descending: true });
-      });
-  });
-  test("status 404: Returns a route not found message when given a incorrect endpoint", () => {
-    return request(app)
-      .get("/api/banana")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("Not Found");
       });
   });
 });
