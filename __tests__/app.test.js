@@ -113,6 +113,22 @@ describe("GET /api/article/:article_id, with added comment count ", () => {
         )
       );
   });
+  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
+    return request(app)
+      .get("/api/articles/banana")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+  test("status 404: Returns a route not found message when given a non existent endpoint ", () => {
+    return request(app)
+      .get("/api/articles/9999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route Not Found");
+      });
+  });
 });
 
 const voteUpdate = {
@@ -269,7 +285,6 @@ describe("GET/api/articles/:article_id/comments", () => {
         expect(comments).toHaveLength(0);
       });
   });
-
   test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
     return request(app)
       .get("/api/articles/banana/comments")
