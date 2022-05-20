@@ -215,7 +215,7 @@ describe("GET/api/users", () => {
   });
 });
 
-describe("api/articles", () => {
+describe("GET api/articles", () => {
   test("status 200: Returns an  array of article objects with added comment count ", () => {
     return request(app)
       .get("/api/articles")
@@ -239,7 +239,7 @@ describe("api/articles", () => {
         });
       });
   });
-  test("status 200: articles are sorted by created_in descending order", () => {
+  test("status 200: articles are sorted by created_by in descending order", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -251,7 +251,84 @@ describe("api/articles", () => {
         expect(articles).toBeSortedBy("created_at", { descending: true });
       });
   });
+test("status 200: articles can be sorted by any given query", () => {
+  return request(app)
+  .get("/api/articles?sort_by=article_id")
+  .expect(200)
+  .then(({ body }) => {
+    const { articles } = body;
+    expect(articles).toBeSortedBy("article_id", { descending: true });
+  });
 });
+test("status 400:Returns a bad request message when passed an invalid sort_by", () => {
+  return request(app)
+    .get("/api/articles?sort_by=bananas")
+    .expect(400)
+    .then((response)=>{
+      expect(response.body.msg).toBe('Bad Request')
+    });
+  });
+  test('status 200: Returns the articles ordered by order query', () => {
+    return request(app)
+    .get("/api/articles?order=asc")
+    .expect(200)
+    .then(({ body }) => {
+      const { articles } = body;
+      articles.forEach((article) => {
+        article.created_at = Date.parse(article.created_at);
+      })
+      expect(articles).toBeSortedBy('created_at',{ascending: true });
+    });
+  });
+  test('status 200: Queries are ordered Descedning by default', () => {
+    return request(app)
+    .get("/api/articles?")
+    .expect(200)
+    .then(({ body }) => {
+      const { articles } = body;
+      articles.forEach((article) => {
+        article.created_at = Date.parse(article.created_at);
+      })
+      expect(articles).toBeSortedBy('created_at',{descending: true });
+    });
+  });
+  test("status 400: Returns a bad request message when passed an invalid order value", () => {
+    return request(app)
+    .get("/api/articles?order=bananas")
+    .expect(400)
+    .then((response) => {
+      expect(response.body.msg).toBe('Bad Request');
+    });
+    });
+    test('status 200: Returns articles filtered by topic', () => {
+      return request(app)
+      .get("/api/articles?topic=cats")
+      .expect(200)
+      .then(({body}) => {
+        const {articles} = body
+      expect(articles).toHaveLength(1)
+       articles.forEach((article)=>{
+         expect(article).toEqual(expect.objectContaining({   
+         title: expect.any(String),
+        author: expect.any(String),
+        body: expect.any(String),
+        created_at: expect.any(String),
+        votes: expect.any(Number),
+        comment_count: expect.any(Number),
+        topic:'cats'
+       }))})
+      });
+    })
+    test('status 400: Returns a bad request message when passed an invalid query', () => {
+      return request(app)
+      .get("/api/articles?topic=mocchaicino")
+      .expect(400)
+      .then((response) => {
+        expect(response.body.msg).toBe('Bad Request');
+      });
+     });
+  });
+
 
 describe("GET/api/articles/:article_id/comments", () => {
   test("Should return an array of all the comments on a given article_id", () => {
@@ -362,3 +439,14 @@ describe("POST/api/articles/:article_id/comments", () => {
       });
   });
 });
+
+
+// test("status 200: articles can be sorted to be ascending or", () => {
+  //   return request(app)
+  //   .get("/api/articles?sort_by=article_id")
+  //   .expect(200)
+  //   .then(({ body }) => {
+  //     const { articles } = body;
+  //     expect(articles).toBeSortedBy("article_id", { descending: true });
+  //   });
+  // });
