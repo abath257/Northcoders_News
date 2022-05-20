@@ -20,13 +20,13 @@ exports.getCommentsById = (req, res, next) => {
 exports.postNewComment = (req, res, next) => {
   const { article_id } = req.params;
   const newComment = req.body;
-
+  console.log(newComment)
   postFreshComment(article_id, newComment)
     .then((response) => {
-      console.log(response)
       res.status(201).send( {comment:response} );
     })
     .catch((err) => {
+      console.log(err)
       next(err);
     });
 };

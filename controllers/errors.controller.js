@@ -15,7 +15,9 @@ exports.handlePSQLErrors =((err, req, res, next) => {
     res.status(400).send({ msg: "Bad Request" });
   } else if (err.code === "23502") {
     res.status(422).send({ msg: "Incorrect Input" });
-  } else {
+  } else if (err.code === "23503") {
+    res.status(404).send({ msg: "Route not Found" });
+  }else {
     next(err);
   }
 });

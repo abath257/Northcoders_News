@@ -312,8 +312,8 @@ describe.only("POST/api/articles/:article_id/comments", () => {
       .send(newComment)
       .expect(201)
       .then(({ body }) => {
-        const {comment} = body
-        console.log(body)
+        const { comment } = body;
+        console.log(body);
         expect(comment).toEqual(
           expect.objectContaining({
             comment_id: 19,
@@ -324,6 +324,42 @@ describe.only("POST/api/articles/:article_id/comments", () => {
             created_at: expect.any(String),
           })
         );
+      });
+  });
+  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
+    return request(app)
+      .post("/api/articles/banana/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+  test("status 404: Returns a route not found message when given a non existent endpoint ", () => {
+    return request(app)
+      .post("/api/articles/9999/comments")
+      .send(newComment)
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route not Found");
+      });
+  });
+  test("status 422: returns an incorrect message when sent invalid data key", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({ leg: "This is a very good article", username: "lurker" })
+      .expect(422)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Incorrect Input");
+      });
+  });
+  test.only("status 404: returns not found when sent username that doesnt exist", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({ body: "This is a very good article", username: "Frank" })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route not Found");
       });
   });
 });
