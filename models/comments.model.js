@@ -25,7 +25,6 @@ exports.postFreshComment = (article_id, comment) => {
       [comment.body,comment.username, article_id]
     )
     .then((data) => {
-      console.log(data.rows)
       const comment = data.rows[0]
       if (!comment) {
         return Promise.reject({ status: 404, msg: "Route not Found" });

@@ -70,7 +70,7 @@ describe("GET /api/articles/:article_id", () => {
       .get("/api/articles/9999")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Route Not Found");
+        expect(body.msg).toBe("Route not Found");
       });
   });
 });
@@ -126,7 +126,7 @@ describe("GET /api/article/:article_id, with added comment count ", () => {
       .get("/api/articles/9999")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Route Not Found");
+        expect(body.msg).toBe("Route not Found");
       });
   });
 });
@@ -298,14 +298,14 @@ describe("GET/api/articles/:article_id/comments", () => {
       .get("/api/articles/9999/comments")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Route Not Found");
+        expect(body.msg).toBe("Route not Found");
       });
   });
 });
 
 const newComment = { username: "lurker", body: "This is a very good article" };
 
-describe.only("POST/api/articles/:article_id/comments", () => {
+describe("POST/api/articles/:article_id/comments", () => {
   test("Responds with the posted comment ", () => {
     return request(app)
       .post("/api/articles/1/comments")
@@ -313,7 +313,6 @@ describe.only("POST/api/articles/:article_id/comments", () => {
       .expect(201)
       .then(({ body }) => {
         const { comment } = body;
-        console.log(body);
         expect(comment).toEqual(
           expect.objectContaining({
             comment_id: 19,
@@ -353,7 +352,7 @@ describe.only("POST/api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("Incorrect Input");
       });
   });
-  test.only("status 404: returns not found when sent username that doesnt exist", () => {
+  test("status 404: returns not found when sent username that doesnt exist", () => {
     return request(app)
       .post("/api/articles/1/comments")
       .send({ body: "This is a very good article", username: "Frank" })
