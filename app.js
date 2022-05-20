@@ -6,6 +6,9 @@ const {
   handleCustomErrors,
   handlePSQLErrors,
 } = require("./controllers/errors.controller.js");
+const {postNewComment} = require ('./controllers/comments.controller')
+
+
 
 const { getTopics } = require("./controllers/topics.controller.js");
 const {
@@ -22,6 +25,7 @@ app.get("/api/articles/:article_id", getArticleById);
 app.patch("/api/articles/:article_id", patchArticleById);
 app.get("/api/users", getAllUsers);
 app.get("/api/articles/:article_id/comments", getCommentsById);
+app.post('/api/articles/:article_id/comments', postNewComment)
 
 app.get("/api/*", handleRootPathErrors);
 app.use(handleCustomErrors);

@@ -24,7 +24,7 @@ exports.fetchArticleById = (article_id) => {
     .then((data) => {
       const article = data.rows[0];
       if (!article) {
-        return Promise.reject({ status: 404, msg: "Route Not Found" });
+        return Promise.reject({ status: 404, msg: "Route not Found" });
       }
       return article;
     });
