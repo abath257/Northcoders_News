@@ -5,7 +5,6 @@ const seed = require("../db/seeds/seed");
 const request = require("supertest");
 const testData = require("../db/data/test-data");
 
-
 beforeEach(() => seed(testData));
 
 afterAll(() => db.end());
@@ -67,6 +66,62 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
   test("status 404: Returns a Route Not found message when given endpoint of correct type but is otherwise invalid", () => {
+    return request(app)
+      .get("/api/articles/9999")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route Not Found");
+      });
+  });
+});
+
+describe("GET /api/article/:article_id, with added comment count ", () => {
+  test("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then(({ body }) =>
+        expect(body.article).toEqual(
+          expect.objectContaining({
+            article_id: 1,
+            title: "Living in the shadow of a great man",
+            topic: "mitch",
+            author: "butter_bridge",
+            body: "I find this existence challenging",
+            created_at: "2020-07-09T20:11:00.000Z",
+            votes: 100,
+            comment_count: 11,
+          })
+        )
+      );
+  });
+  test("status 200 : Returns the article's comment count as 0 when there are no comments", () => {
+    return request(app)
+      .get("/api/articles/4")
+      .expect(200)
+      .then(({ body }) =>
+        expect(body.article).toEqual(
+          expect.objectContaining({
+            title: "Student SUES Mitch!",
+            topic: "mitch",
+            author: "rogersop",
+            body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
+            created_at: "2020-05-06T01:14:00.000Z",
+            votes: 0,
+            comment_count: 0,
+          })
+        )
+      );
+  });
+  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
+    return request(app)
+      .get("/api/articles/banana")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+  test("status 404: Returns a route not found message when given a non existent endpoint ", () => {
     return request(app)
       .get("/api/articles/9999")
       .expect(404)
@@ -158,49 +213,7 @@ describe("GET/api/users", () => {
         );
       });
   });
-})
-
-
-describe("GET /api/article/:article_id, with added comment count ", () => {
-  test("Status 200 : Returns the article given in the endpoint, with the username as the author and added comment count", () => {
-    return request(app)
-      .get("/api/articles/1")
-      .expect(200)
-      .then(({ body }) =>
-        expect(body.article).toEqual(
-          expect.objectContaining({
-            article_id: 1,
-            title: "Living in the shadow of a great man",
-            topic: "mitch",
-            author: "butter_bridge",
-            body: "I find this existence challenging",
-            created_at: "2020-07-09T20:11:00.000Z",
-            votes: 100,
-            comment_count: 11,
-          })
-        )
-      );
-  });
-  test("status 200 : Returns the article's comment count as 0 when there are no comments", () => {
-    return request(app)
-      .get("/api/articles/4")
-      .expect(200)
-      .then(({ body }) =>
-        expect(body.article).toEqual(
-          expect.objectContaining({
-            title: "Student SUES Mitch!",
-            topic: "mitch",
-            author: "rogersop",
-            body: "We all love Mitch and his wonderful, unique typing style. However, the volume of his typing has ALLEGEDLY burst another students eardrums, and they are now suing for damages",
-            created_at: "2020-05-06T01:14:00.000Z",
-            votes: 0,
-            comment_count: 0,
-          })
-        )
-      );
-  });
-})
-
+});
 
 describe("api/articles", () => {
   test("status 200: Returns an  array of article objects with added comment count ", () => {
@@ -236,6 +249,56 @@ describe("api/articles", () => {
           article.created_at = Date.parse(article.created_at);
         });
         expect(articles).toBeSortedBy("created_at", { descending: true });
+      });
+  });
+});
+
+describe("GET/api/articles/:article_id/comments", () => {
+  test("Should return an array of all the comments on a given article_id", () => {
+    return request(app)
+      .get("/api/articles/3/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        comments.forEach((comment) => {
+          expect(comments).toBeInstanceOf(Array);
+          expect(comments).toHaveLength(2);
+          expect(comment).toEqual(
+            expect.objectContaining({
+              comment_id: expect.any(Number),
+              body: expect.any(String),
+              votes: expect.any(Number),
+              author: expect.any(String),
+              created_at: expect.any(String),
+            })
+          );
+        });
+      });
+  });
+  test("status 200: Returns an empty array, with no error, when endpoint is valid but there are no comments attached", () => {
+    return request(app)
+      .get("/api/articles/4/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments).toHaveLength(0);
+      });
+  });
+  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
+    return request(app)
+      .get("/api/articles/banana/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+  test("status 404: Returns a route not found message when given a non existent endpoint ", () => {
+    return request(app)
+      .get("/api/articles/9999/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route Not Found");
       });
   });
 });
