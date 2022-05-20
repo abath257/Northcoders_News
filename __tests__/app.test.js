@@ -303,23 +303,27 @@ describe("GET/api/articles/:article_id/comments", () => {
   });
 });
 
-const newComment = {username: 'Mitch' , body: 'This is a very good article'}
+const newComment = { username: "lurker", body: "This is a very good article" };
 
-describe('POST/api/articles/:article_id/comments', () => {
-  test('Responds with the posted comment ', () => {
-    return request(app).post('/api/articles/1/comments').send(newComment)
-.expect(201).then(({body}) =>{
-  const {comment} = body
-  .expect(comment).toEqual(
-    expect.objectContaining({
-comment_id:19,
-body: 'This is a very good article',
-votes: 0,
-author: 'Mitch',
-article_id: 1,
-created_at: expect.any(String)
-    }
-  )) 
-})
+describe.only("POST/api/articles/:article_id/comments", () => {
+  test("Responds with the posted comment ", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        const {comment} = body
+        console.log(body)
+        expect(comment).toEqual(
+          expect.objectContaining({
+            comment_id: 19,
+            body: "This is a very good article",
+            votes: 0,
+            author: "lurker",
+            article_id: 1,
+            created_at: expect.any(String),
+          })
+        );
+      });
   });
 });

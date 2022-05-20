@@ -14,3 +14,16 @@ exports.fetchCommentsById = (article_id) => {
       return comments;
     });
 };
+
+exports.postFreshComment = (article_id, comment) => {
+  const { body } = comment;
+  const { username } = comment;
+  return db
+    .query(
+      "INSERT INTO comments (body,votes,author,article_id,created_at) VALUES ($1, 0, $2,$3, NOW()) RETURNING *",
+      [body, username, article_id]
+    )
+    .then((data) => {
+      return data.rows[0];
+    });
+};
