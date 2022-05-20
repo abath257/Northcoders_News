@@ -237,7 +237,7 @@ describe("api/articles", () => {
   });
 });
 
-describe.only("GET/api/articles/:article_id/comments", () => {
+describe("GET/api/articles/:article_id/comments", () => {
   test("Should return an array of all the comments on a given article_id", () => {
     return request(app)
       .get("/api/articles/3/comments")
@@ -253,10 +253,37 @@ describe.only("GET/api/articles/:article_id/comments", () => {
               body: expect.any(String),
               votes: expect.any(Number),
               author: expect.any(String),
-              created_at: expect.any(String)
+              created_at: expect.any(String),
             })
           );
         });
+      });
+  });
+  test("status 200: Returns an empty array, with no error, when endpoint is valid but there are no comments attached", () => {
+    return request(app)
+      .get("/api/articles/4/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toBeInstanceOf(Array);
+        expect(comments).toHaveLength(0);
+      });
+  });
+
+  test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
+    return request(app)
+      .get("/api/articles/banana/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Bad Request");
+      });
+  });
+  test("status 404: Returns a route not found message when given a non existent endpoint ", () => {
+    return request(app)
+      .get("/api/articles/9999/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route Not Found");
       });
   });
 });

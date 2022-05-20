@@ -1,3 +1,5 @@
+const db = require("..");
+
 exports.convertTimestampToDate = ({ created_at, ...otherProperties }) => {
   if (!created_at) return { ...otherProperties };
   return { created_at: new Date(created_at), ...otherProperties };
@@ -20,3 +22,5 @@ exports.formatComments = (comments, idLookup) => {
     };
   });
 };
+
+exports.checkIdExists =(article_id)=>{db.query ('SELECT * FROM articles WHERE article_id = $')[article_id]}
