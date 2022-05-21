@@ -7,6 +7,9 @@ const {
   handleCustomErrors,
   handlePSQLErrors,
 } = require("./controllers/errors.controller.js");
+const {postNewComment} = require ('./controllers/comments.controller')
+
+
 
 const { getTopics } = require("./controllers/topics.controller.js");
 const {
@@ -28,6 +31,8 @@ app.get("/api/users", getAllUsers);
 
 //comments handler 
 app.get("/api/articles/:article_id/comments", getCommentsById);
+
+app.post('/api/articles/:article_id/comments', postNewComment)
 app.delete("/api/comments/:comment_id",deleteCommentById)
 
 //Errors handler 
