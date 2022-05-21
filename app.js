@@ -2,6 +2,7 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
+require('fs.promises')
 const {
   handleRootPathErrors,
   handleCustomErrors,
@@ -19,6 +20,9 @@ const {
 } = require("./controllers/articles.controller.js");
 const { getAllUsers } = require("./controllers/users.controller.js");
 const { getCommentsById , deleteCommentById } = require("./controllers/comments.controller.js");
+
+//api handler
+app.get('/api',getAllEndpoints)
 
 //topics handler
 app.get("/api/topics", getTopics);

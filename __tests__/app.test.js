@@ -9,6 +9,16 @@ beforeEach(() => seed(testData));
 
 afterAll(() => db.end());
 
+describe.only('GET /api', () => {
+  test('status 200: Responds with a list of endpoints in JSON format',()=>{
+  return request(app).get('/api').expect(200).then((body)=>{
+const JSON = {body}
+expect(JSON).toBeInstanceOf(String)
+  })
+  })
+  
+});
+
 describe("GET /api/topics", () => {
   test("status 200 : Responds with all the topics, including slug and description", () => {
     return request(app)
