@@ -1,4 +1,7 @@
-const { fetchCommentsById } = require("../models/comments.model.js");
+const {
+  fetchCommentsById,
+  removeCommentById,
+} = require("../models/comments.model.js");
 const { fetchArticleById } = require("../models/articles.model.js");
 
 exports.getCommentsById = (req, res, next) => {
@@ -10,6 +13,17 @@ exports.getCommentsById = (req, res, next) => {
   Promise.all(promises)
     .then(([comments]) => {
       res.status(200).send({ comments });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.deleteCommentById = (req, res, next) => {
+  const { comment_id } = req.params;
+  removeCommentById(comment_id)
+    .then(() => {
+      res.status(204).send({});
     })
     .catch((err) => {
       next(err);

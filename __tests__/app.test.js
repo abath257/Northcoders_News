@@ -381,12 +381,27 @@ describe("GET/api/articles/:article_id/comments", () => {
 });
 
 
-// test("status 200: articles can be sorted to be ascending or", () => {
-  //   return request(app)
-  //   .get("/api/articles?sort_by=article_id")
-  //   .expect(200)
-  //   .then(({ body }) => {
-  //     const { articles } = body;
-  //     expect(articles).toBeSortedBy("article_id", { descending: true });
-  //   });
-  // });
+describe('DELETE /api/comments/comment_id ', () => {
+test('status 204: Should return a 204 status with no content', () => {
+return request(app)
+.delete('/api/comments/1')
+.expect(204)
+})
+test("status 400: Returns a bad request message when given a endpoint of wrong type", () => {
+  return request(app)
+    .delete("/api/comments/bananas")
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.msg).toBe("Bad Request");
+    });
+});
+test("status 404: Returns a route not found message when given a non existent endpoint ", () => {
+  return request(app)
+    .delete("/api/comments/9999")
+    .expect(404)
+    .then(( {body} ) => {
+      expect(body.msg).toBe("Route not Found");
+    });
+});
+  
+});
