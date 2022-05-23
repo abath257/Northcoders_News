@@ -19,9 +19,31 @@
           "topic": "cooking",
           "author": "weegembump",
           "body": "Text from the article..",
-          "created_at": 1527695953341
+          "created_at": "2020-07-09T20:11:00.000Z"
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id" : {
+  "descripton": "serves a single article object, requested according to endpoint",
+  "endpoint" : "a valid article_id",
+  "queries" : [],
+  "exampleResponse":{
+    "title": "Seafood substitutions are increasing",
+    "topic": "cooking",
+    "author": "weegembump",
+    "body": "Text from the article..",
+    "created_at": "2020-07-09T20:11:00.000Z",
+    "comment_count": 0 
   }
+},
+"PATCH /api/articles/:article_id" :{
+"description" : "edits the specified article's votes property with the given amount of votes",
+"endpoint" : "a valid article_id",
+"queries" : [],
+"exampleInput": {"inc_votes" : 100}
+}
+
+  }
+
 }

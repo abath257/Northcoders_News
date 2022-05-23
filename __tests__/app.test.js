@@ -4,6 +4,7 @@ const db = require("../db");
 const seed = require("../db/seeds/seed");
 const request = require("supertest");
 const testData = require("../db/data/test-data");
+const { isObject } = require("superagent/lib/utils");
 
 beforeEach(() => seed(testData));
 
@@ -13,7 +14,7 @@ describe.only('GET /api', () => {
   test('status 200: Responds with a list of endpoints in JSON format',()=>{
   return request(app).get('/api').expect(200).then((body)=>{
 const JSON = {body}
-expect(JSON).toBeInstanceOf(String)
+expect(JSON).toBeInstanceOf(Object)
   })
   })
   
