@@ -25,8 +25,7 @@ exports.postNewComment = (req, res, next) => {
   const newComment = req.body;
   postFreshComment(article_id, newComment)
     .then((response) => {
-      res.status(201).send( {comment:response} );
-
+      res.status(201).send({ comment: response });
     })
     .catch((err) => {
       next(err);
@@ -34,6 +33,10 @@ exports.postNewComment = (req, res, next) => {
 };
 exports.deleteCommentById = (req, res, next) => {
   const { comment_id } = req.params;
-  removeCommentById(comment_id)
-    .then(() => {
-      res.status(204).send({});
+  removeCommentById(comment_id).then(() => {
+    res.status(204).send({})})
+      .catch((err) => {
+        next(err);
+      });
+  
+};

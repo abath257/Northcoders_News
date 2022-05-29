@@ -12,9 +12,7 @@ exports.fetchCommentsById = ((article_id) => {
         return Promise.reject({ status: 404, msg: "Route not Found" });
       }
       return comments;
-    });
-
-
+    })})
 
 exports.postFreshComment = (article_id, comment) => {
 
@@ -32,10 +30,9 @@ exports.postFreshComment = (article_id, comment) => {
       }
       return comment;
     });
-};
+}
   
-  });
-
+  
 exports.removeCommentById = ((comment_id)=>{
 return db.query('DELETE FROM comments WHERE comment_id = $1 RETURNING *',[comment_id])
 .then((data)=>{
@@ -45,5 +42,4 @@ if (comment.length === 0) {
 }
 })})
 
-};
 
