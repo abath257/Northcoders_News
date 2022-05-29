@@ -1,5 +1,5 @@
 exports.handleRootPathErrors = ((req, res) => {
-  res.status(404).send({ msg: "Not Found" });
+  res.status(404).send({ msg: "Route Not Found" });
 });
 
 exports.handleCustomErrors = ((err, req, res, next) => {

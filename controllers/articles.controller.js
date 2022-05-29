@@ -1,17 +1,18 @@
 const {
   fetchArticleById,
-  patchArticleById, fetchAllArticles
+  patchArticleById,
+  fetchAllArticles,
 } = require("../models/articles.model.js");
 
-exports.getAllArticles = (req,res,next) =>{
-  const {sort_by, order,topic} = req.query
-fetchAllArticles(sort_by, order,topic)
-  .then((articles) => {
-    res.status(200).send({articles});
-  })
-  .catch((err) => {
-    next(err);
-  });
+exports.getAllArticles = (req, res, next) => {
+  const { sort_by, order, topic } = req.query;
+  fetchAllArticles(sort_by, order, topic)
+    .then((articles) => {
+      res.status(200).send({ articles });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
 exports.getArticleById = (req, res, next) => {
