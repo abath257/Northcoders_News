@@ -32,6 +32,11 @@ const {
 //api handler
 app.get("/api", getAllEndpoints);
 
+//Host testing 
+app.get("/hosting", (req,res,next)=>{
+  res.send({msg:"api now hosted"})
+})
+
 //topics handler
 app.get("/api/topics", getTopics);
 
