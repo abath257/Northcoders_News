@@ -8,7 +8,7 @@ const config =
   ENV === "production"?{connectionString:process.env.DATABASE_URL,
   ssl: {rejectUnauthorized : false}}
   : {}
-  
+
 if (!process.env.PGDATABASE) {
   throw new Error('PGDATABASE not set');
 }
