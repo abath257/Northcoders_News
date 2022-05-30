@@ -9,7 +9,7 @@ const config =
   ssl: {rejectUnauthorized : false}}
   : {}
 
-if (!process.env.PGDATABASE) {
+if (!process.env.PGDATABASE && !process.env.DATABaSE_URL) {
   throw new Error('PGDATABASE not set');
 }
 
