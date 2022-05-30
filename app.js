@@ -59,5 +59,5 @@ app.get("/api/*", handleRootPathErrors);
 app.use(handleCustomErrors);
 app.use(handlePSQLErrors);
 
-//Exports
+//Export
 module.exports = app;
