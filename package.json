@@ -8,7 +8,8 @@
     "seed": "node ./db/seeds/run-seed.js",
     "test": "jest",
     "prepare": "husky install",
-    "start": "node listen.js"
+    "start": "node listen.js",
+    "seed-prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) node db/seeds/run-seed"
   },
   "repository": {
     "type": "git",
@@ -22,19 +23,18 @@
   },
   "homepage": "https://github.com/northcoders/be-nc-news#readme",
   "devDependencies": {
-    "jest": "^27.5.1",
     "husky": "^7.0.4",
+    "jest": "^27.5.1",
     "jest-extended": "^2.0.0",
     "jest-sorted": "^1.0.14",
-    "pg-format": "^1.0.4",
     "supertest": "^6.2.3"
   },
   "dependencies": {
- 
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "fs.promises": "^0.1.2",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "pg-format": "^1.0.4"
   },
   "jest": {
     "setupFilesAfterEnv": [
