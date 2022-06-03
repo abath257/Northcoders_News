@@ -84,7 +84,7 @@ exports.patchArticleById = (article_id, votes) => {
     });
 };
 
-exports.fetchCommentsById = ((article_id) => {
+exports.fetchCommentsById = (article_id) => {
   return db
     .query(
       "SELECT comment_id,body,votes,author,created_at FROM comments WHERE article_id = $1 GROUP BY comment_id",
@@ -96,23 +96,22 @@ exports.fetchCommentsById = ((article_id) => {
         return Promise.reject({ status: 404, msg: "Route not Found" });
       }
       return comments;
-    })})
-
+    });
+};
 
 exports.postFreshComment = (article_id, comment) => {
-
   const { body } = comment;
   const { username } = comment;
   return db
     .query(
       "INSERT INTO comments (body,votes,author,article_id,created_at) VALUES ($1, 0, $2,$3, NOW()) RETURNING *",
-      [comment.body,comment.username, article_id]
+      [comment.body, comment.username, article_id]
     )
     .then((data) => {
-      const comment = data.rows[0]
+      const comment = data.rows[0];
       if (!comment) {
         return Promise.reject({ status: 404, msg: "Route not Found" });
       }
       return comment;
     });
-}
+};
