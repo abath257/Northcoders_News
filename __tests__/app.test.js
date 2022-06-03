@@ -335,20 +335,7 @@ test("status 400: Responds with an Bad Request message when sent invalid key val
     });
 });
 
-describe("GET/api/users", () => {
-  test("status 200: Responds with an array of all the usernames property", () => {
-    return request(app)
-      .get("/api/users")
-      .expect(200)
-      .then(({ body }) => {
-        const { users } = body;
-        expect(users).toHaveLength(4);
-        expect(users).toEqual(
-          expect.arrayContaining([{ username: expect.any(String) }])
-        );
-      });
-  });
-});
+
 
 describe("GET/api/articles/:article_id/comments", () => {
   test("Respsonds with an array of all the comments on a specified article_id", () => {
@@ -483,3 +470,45 @@ describe("DELETE /api/comments/:comment_id ", () => {
       });
   });
 });
+
+describe("GET/api/users", () => {
+  test("status 200: Responds with an array of all the usernames property", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        const { users } = body;
+        expect(users).toHaveLength(4);
+        expect(users).toEqual(
+          expect.arrayContaining([{ username: expect.any(String) }])
+        );
+      });
+  });
+});
+
+describe('Get /api/users/:username', () => {
+  test('status 200: Responds with a specified user object', () => {
+    return request(app)
+      .get("/api/users/rogersop")
+      .expect(200)
+      .then(({ body }) => {
+        const { user } = body;
+        expect(user).toEqual(expect.objectContaining({
+          username: 'rogersop',
+          name: 'paul',
+          avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4'
+        }) 
+        );
+      });
+  });
+  test("status 404: Responds with Route Not Found message when given a incorrect endpoint", () => {
+    return request(app)
+      .get("/api/users/geoff")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("Route Not Found");
+      });
+  });
+});
+
+ 
