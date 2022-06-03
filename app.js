@@ -11,12 +11,14 @@ const {
   getAllArticles,
   getArticleById,
   patchArticleById,
+  postNewComment,
+  getCommentsById,
 } = require("./controllers/articles.controller.js");
 
 const {
-  getCommentsById,
+
   deleteCommentById,
-  postNewComment
+  
 } = require("./controllers/comments.controller.js");
 
 const { getAllUsers } = require("./controllers/users.controller.js");
@@ -44,11 +46,10 @@ app.get("/api/topics", getTopics);
 app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.patch("/api/articles/:article_id", patchArticleById);
-
-
-//comments handler
 app.get("/api/articles/:article_id/comments", getCommentsById);
 app.post("/api/articles/:article_id/comments", postNewComment);
+
+//comments handler
 app.delete("/api/comments/:comment_id", deleteCommentById);
 
 //users handler
