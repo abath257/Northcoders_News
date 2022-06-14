@@ -12,7 +12,7 @@ exports.fetchAllArticles = (sort_by = "created_at", order = "desc", topic) => {
     "comment_count",
   ];
 
-  const validTopics = ["cats", "mitch"];
+  const validTopics = ["football", "coding","cooking","cats"];
 
   let queryStr =
     "SELECT articles.*,CAST (COUNT(comments.article_id) AS INTEGER) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id=comments.article_id GROUP BY articles.article_id";
