@@ -20,7 +20,7 @@ The minimum version of Postgres required: >= 8.7.3
 
 3. In the terminal, ensure you are in the projects directory
 
-4. Install dependencies by typing: npm install. This will create a node_modules package.
+4. Install dependencies by typing: npm install. 
 5. Create the Environment Variables:
 If you are cloning this project locally, you will need to do the following tasks in order to set up the environment varibales:
 
@@ -30,7 +30,7 @@ If you are cloning this project locally, you will need to do the following tasks
 
 * Ensure the files contain the follwing: 
 The .env.development file should contain the following script: PGDATABASE=<database name here>
-The .env.test file should contain the following script: PGDATABSE=<test databse name here>
+The .env.test file should contain the following script: PGDATABSE=<test database name here>
 
 6. Initiate the databse by typing in the terminal: npm run setup-dbs 
 7. Testing can be initiated by typing npm t app.test.js in the terminal from anywhere in the root directory of the project. 
