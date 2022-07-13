@@ -32,6 +32,6 @@ If you are cloning this project locally, you will need to do the following tasks
 The .env.development file should contain the following script: PGDATABASE=<database name here>
 The .env.test file should contain the following script: PGDATABSE=<test database name here>
 
-6. Initiate the databse by typing in the terminal: npm run setup-dbs 
+6. Initiate the databse by typing in the terminal: ```npm run setup-dbs``` 
 7. Testing can be initiated by typing npm t app.test.js in the terminal from anywhere in the root directory of the project. 
  
